@@ -33,7 +33,18 @@ router.get('/:id',(req,res)=>{
 
 })
 
-router.post('/',(req,res)=>{
+router.post('/', async (req,res)=>{
+    try{
+  const {name,description} = await  Project.insert(req.body)
+  if (!name || !description) {
+      res.status(400).json()
+  } else {
+      res.json(name,description)
+  }
+}
+    catch (err) {
+        res.status(400).json()
+    }
 
 })
 
