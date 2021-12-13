@@ -49,7 +49,10 @@ router.post('/', async (req,res)=>{
 })
 
 router.put('/:id',(req,res)=>{
-
+	const {name,description, completed} = req.body
+	if (!name || !description || !completed) {
+		res.status(400).json()
+	} 
 })
 
 router.delete('/:id',(req,res)=>{
