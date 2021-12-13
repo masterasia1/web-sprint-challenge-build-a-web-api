@@ -27,8 +27,18 @@ router.get('/:id',(req,res)=>{
     })
 })
 
-router.post('/',(req,res)=>{
-
+router.post('/', async (req,res)=>{
+    try{
+        const {notes,description, project_id} = await  Action.insert(req.body)
+        if (!notes || !description || project_id) {
+            res.status(400).json()
+        } else {
+            res.json(notes,description, project_id)
+        }
+      }
+          catch (err) {
+              res.status(400).json()
+          }
 })
 
 router.put('/:id',(req,res)=>{
@@ -36,6 +46,13 @@ router.put('/:id',(req,res)=>{
 })
 
 router.delete('/:id',(req,res)=>{
+    Action.delete(req.params.id)
+    .then(() => {
+        res.status(200).json()
+    })
+    .catch (err => {
+        res.status(500)
+    })
 
 })
 
